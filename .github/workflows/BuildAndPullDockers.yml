@@ -15,7 +15,7 @@ jobs:
         # Full git history is needed to get a proper list of changed files within `super-linter`
         fetch-depth: 0
     - name: Get chi
-      run: go get github.com/go-chi/chi/v5
+      run: go get -u -v -f all
     - name: Get chi middlware
       run: go get github.com/go-chi/chi/v5/middleware
     - name: Get chi cors
