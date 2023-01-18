@@ -1,0 +1,21 @@
+name: Build and Push Docker Image
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.9'
+    - name: Build Go application
+      run: cd broker-service && go build -o authApp ./cmd/api
+    - name: Build Docker image
+      run: docker build -t registry.digitalocean.com/lingvini/authApp:latest .
+    - name: Login to DigitalOcean Registry
+      run: echo ${{ secrets.DO_API_TOKEN }} | docker login -u ${{ secrets.DO_API_TOKEN }} --password-stdin registry.digitalocean.com
+    - name: Push to DigitalOcean Registry
+      run: docker push registry.digitalocean.com/lingvini/authApp:latest
