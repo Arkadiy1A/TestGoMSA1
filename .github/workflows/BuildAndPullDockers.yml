@@ -15,11 +15,11 @@ jobs:
         # Full git history is needed to get a proper list of changed files within `super-linter`
         fetch-depth: 0
     - name: Get chi
-      run: go mod download github.com/go-chi/chi/v5
+      run: go get github.com/go-chi/chi/v5
     - name: Get chi middlware
-      run: go mod download github.com/go-chi/chi/v5/middleware
+      run: go get github.com/go-chi/chi/v5/middleware
     - name: Get chi cors
-      run: go mod download github.com/go-chi/cors
+      run: go get github.com/go-chi/cors
     - name: Build Go application
       run: cd broker-service && go build -o authApp ./cmd/api
     - name: Build Docker image
