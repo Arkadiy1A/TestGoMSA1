@@ -23,13 +23,13 @@ jobs:
     - name: Build brokerApp application
       run: cd broker-service && env GOOS=linux CGO_ENABLED=0 go build -o brokerApp ./cmd/api
     - name: Build brokerApp Docker image
-      run: cd broker-service && docker build -t arkadiyagapov/linguini/brokerapp:latest . -f broker-service.dockerfile
+      run: cd broker-service && docker build -t arkadiyagapov/brokerapp:latest . -f broker-service.dockerfile
     - name: Push brokerApp to DockerHUB
-      run: docker push arkadiyagapov/linguini/brokerapp:latest
+      run: docker push arkadiyagapov/brokerapp:latest
     
     - name: Build authApp application
       run: cd authentication-service && env GOOS=linux CGO_ENABLED=0 go build -o authApp ./cmd/api
     - name: Build authApp Docker image
-      run: cd authentication-service && docker build -t arkadiyagapov/linguini/authapp:latest . -f authentication-service.dockerfile
+      run: cd authentication-service && docker build -t arkadiyagapov/authapp:latest . -f authentication-service.dockerfile
     - name: Push authApp to DockerHUB
-      run: docker push arkadiyagapov/linguini/authapp:latest
+      run: docker push arkadiyagapov/authapp:latest
