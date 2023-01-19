@@ -6,7 +6,7 @@ services:
     image: 'arkadiyagapov/frontapp:latest'
     restart: always
     ports:
-      - "80:80"
+      - "9090:80"
     deploy:
       mode: replicated
       replicas: 1
