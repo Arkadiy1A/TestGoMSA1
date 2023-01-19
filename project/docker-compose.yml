@@ -2,6 +2,17 @@ version: '3'
 
 services:
 
+  front-end-service:
+    build:
+      context: ./../front-end
+      dockerfile: ./../front-end/front-end-service.dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    deploy:
+      mode: replicated
+      replicas: 1
+
   broker-service:
     build:
       context: ./../broker-service
