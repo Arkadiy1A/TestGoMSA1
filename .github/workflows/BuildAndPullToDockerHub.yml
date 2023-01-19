@@ -1,4 +1,4 @@
-name: Build and Push to DockerHub
+name: Build and Deploy
 on:
   workflow_dispatch:
 jobs:
@@ -40,3 +40,28 @@ jobs:
       run: cd front-end && docker build -t arkadiyagapov/frontapp:latest . -f front-end-service.dockerfile
     - name: Push frontApp to DockerHUB
       run: docker push arkadiyagapov/frontapp:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Copy Docker Compose to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_LING_1 }}
+          username: ${{ secrets.USERNAME_LING_1 }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_LING_1 }}
+          source: ./project/docker-compose-hub.yml
+          target: /home/deployer/
+      - name: Deploy application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_LING_1 }}
+          username: ${{ secrets.USERNAME_LING_1 }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_LING_1 }}
+          script: |
+            docker compose -f /home/deployer/project/docker-compose-hub.yml down
+            docker compose -f /home/deployer/project/docker-compose-hub.yml up -d
