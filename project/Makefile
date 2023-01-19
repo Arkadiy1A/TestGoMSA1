@@ -2,7 +2,7 @@ FRONT_END_BINARY=frontApp
 BROKER_BINARY=brokerApp
 FRONT_BINARY=frontApp
 AUTH_BINARY=authApp
-LOGS_BINARY=logsApp
+LOGS_BINARY=loggerServiceApp
 
 ## up: starts all containers in the background without forcing build
 up:

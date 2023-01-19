@@ -56,7 +56,7 @@ services:
       - ./db-data/postgres/:/var/lib/postgresql/data/
 
   mongo:
-    image: 'mongo:4.2.16-bionic'
+    image: 'mongo:latest'
     ports:
       - "27017:27017"
     environment:
