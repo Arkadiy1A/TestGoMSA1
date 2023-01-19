@@ -39,4 +39,4 @@ jobs:
     - name: Build frontApp Docker image
       run: cd front-end && docker build -t arkadiyagapov/frontapp:latest . -f front-end-service.dockerfile
     - name: Push frontApp to DockerHUB
-      run: docker push arkadiyagapov/authapp:latest
+      run: docker push arkadiyagapov/frontapp:latest
