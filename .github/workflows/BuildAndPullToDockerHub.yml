@@ -1,4 +1,4 @@
-Hname: Build and Push to DockerHub
+name: Build and Push to DockerHub
 on:
   workflow_dispatch:
 jobs:
