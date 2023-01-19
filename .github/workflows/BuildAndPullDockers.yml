@@ -1,4 +1,4 @@
-name: Build and Push Docker Image To DockerHub
+name: Build and Push Docker Image To DigitalOcean
 on:
   workflow_dispatch:
 jobs:
