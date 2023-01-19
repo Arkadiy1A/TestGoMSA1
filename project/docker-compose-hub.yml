@@ -3,9 +3,7 @@ version: '3'
 services:
 
   front-end-service:
-    build:
-      context: ./../front-end
-      dockerfile: ./../front-end/front-end-service.dockerfile
+    image: 'arkadiyagapov/frontapp:latest'
     restart: always
     ports:
       - "80:80"
