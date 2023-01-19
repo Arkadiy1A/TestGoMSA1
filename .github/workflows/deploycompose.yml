@@ -22,7 +22,7 @@ jobs:
         source: ./project/docker-compose.yml
         target: /home/deployer/docker-compose.yml
     - name: Deploy application
-      uses: appleboy/ssh-action@v1
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST_LING_1 }}
         username: ${{ secrets.USERNAME_LING_1 }}
