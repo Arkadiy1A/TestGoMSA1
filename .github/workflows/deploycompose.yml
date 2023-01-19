@@ -14,21 +14,21 @@ jobs:
     - name: Set up SSH key
       uses: webfactory/ssh-agent@v0.4.0
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_LING_1 }}
     - name: Copy Docker Compose to server
       uses: appleboy/scp-action@v1
       with:
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: ./docker-compose.yml
+        username: ${{ secrets.USERNAME_LING_1 }}
+        key: ${{ secrets.SSH_PRIVATE_KEY_LING_1 }}
+        source: ./project/docker-compose.yml
         target: /home/deployer/docker-compose.yml
     - name: Deploy application
       uses: appleboy/ssh-action@v1
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        host: ${{ secrets.HOST_LING_1 }}
+        username: ${{ secrets.USERNAME_LING_1 }}
+        key: ${{ secrets.SSH_PRIVATE_KEY_LING_1 }}
         script: |
           docker-compose -f /home/deployer/docker-compose.yml down
           docker-compose -f /home/deployer/docker-compose.yml up -d
