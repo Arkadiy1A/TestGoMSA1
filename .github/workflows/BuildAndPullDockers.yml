@@ -14,7 +14,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build Go application
-      run: cd broker-service && env GOOS=linux CGO_ENABLED=0 go build -o authApp ./cmd/api
+      run: cd broker-service && env GOOS=linux CGO_ENABLED=0 go build -o brokerApp ./cmd/api
     - name: Build Docker image
       run: cd broker-service && docker build -t registry.digitalocean.com/lingvini/authapp:latest . -f broker-service.dockerfile
     - name: Login to DigitalOcean Registry
