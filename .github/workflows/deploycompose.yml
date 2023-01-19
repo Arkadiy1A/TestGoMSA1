@@ -10,7 +10,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Copy Docker Compose to server
-      run: scp -r -i {{ secrets.SSH_PRIVATE_KEY_LING_1 }} ./project/docker-compose.yml ${{ secrets.USERNAME_LING_1 }}@${{ secrets.HOST }}:/home/deployer/docker-compose.yml
+      run: scp -r -i {{ secrets.SSH_PRIVATE_KEY_LING_1 }} ./project/docker-compose.yml ${{ secrets.USERNAME_LING_1 }}@${{ secrets.HOST_LING_1 }}:/home/deployer/docker-compose.yml
     - name: Deploy application
       uses: appleboy/ssh-action@master
       with:
