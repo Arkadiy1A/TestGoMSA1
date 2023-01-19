@@ -16,7 +16,7 @@ jobs:
         host: ${{ secrets.HOST_LING_1 }}
         username: ${{ secrets.USERNAME_LING_1 }}
         key: ${{ secrets.SSH_PRIVATE_KEY_LING_1 }}
-        source: ./project/docker-compose.yml
+        source: ./project/docker-compose-hub.yml
         target: /home/deployer/
     - name: Deploy application
       uses: appleboy/ssh-action@master
@@ -25,5 +25,5 @@ jobs:
         username: ${{ secrets.USERNAME_LING_1 }}
         key: ${{ secrets.SSH_PRIVATE_KEY_LING_1 }}
         script: |
-          docker compose -f /home/deployer/project/docker-compose.yml down
-          docker compose -f /home/deployer/project/docker-compose.yml up -d
+          docker compose -f /home/deployer/project/docker-compose-hub.yml down
+          docker compose -f /home/deployer/project/docker-compose-hub.yml up -d
