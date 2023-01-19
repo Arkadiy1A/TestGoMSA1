@@ -13,11 +13,17 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: Build Go application
+    - name: Build brokerApp application
       run: cd broker-service && env GOOS=linux CGO_ENABLED=0 go build -o brokerApp ./cmd/api
-    - name: Build Docker image
+    - name: Build brokerApp Docker image
       run: cd broker-service && docker build -t registry.digitalocean.com/lingvini/brokerapp:latest . -f broker-service.dockerfile
+    - name: Build authApp application
+      run: cd authentication-service && env GOOS=linux CGO_ENABLED=0 go build -o authApp ./cmd/api
+    - name: Build authApp Docker image
+      run: cd authentication-service && docker build -t registry.digitalocean.com/lingvini/authapp:latest . -f authentication-service.dockerfile
     - name: Login to DigitalOcean Registry
       run: echo ${{ secrets.DO_API_TOKEN }} | docker login -u ${{ secrets.DO_API_TOKEN }} --password-stdin registry.digitalocean.com
-    - name: Push to DigitalOcean Registry
+    - name: Push brokerApp to DigitalOcean Registry
       run: docker push registry.digitalocean.com/lingvini/brokerapp:latest
+    - name: Push authApp to DigitalOcean Registry
+      run: docker push registry.digitalocean.com/lingvini/authapp:latest
