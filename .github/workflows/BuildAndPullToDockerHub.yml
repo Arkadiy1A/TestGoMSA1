@@ -33,3 +33,10 @@ jobs:
       run: cd authentication-service && docker build -t arkadiyagapov/authapp:latest . -f authentication-service.dockerfile
     - name: Push authApp to DockerHUB
       run: docker push arkadiyagapov/authapp:latest
+
+    - name: Build frontApp application
+      run: cd front-end && env GOOS=linux CGO_ENABLED=0 go build -o frontApp ./cmd/web
+    - name: Build frontApp Docker image
+      run: cd front-end && docker build -t arkadiyagapov/frontapp:latest . -f front-end-service.dockerfile
+    - name: Push frontApp to DockerHUB
+      run: docker push arkadiyagapov/authapp:latest
