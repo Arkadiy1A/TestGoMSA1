@@ -25,5 +25,5 @@ jobs:
         username: ${{ secrets.USERNAME_LING_1 }}
         key: ${{ secrets.SSH_PRIVATE_KEY_LING_1 }}
         script: |
-          docker-compose -f /home/deployer/docker-compose.yml down
-          docker-compose -f /home/deployer/docker-compose.yml up -d
+          docker compose -f /home/deployer/docker-compose.yml down
+          docker compose -f /home/deployer/docker-compose.yml up -d
