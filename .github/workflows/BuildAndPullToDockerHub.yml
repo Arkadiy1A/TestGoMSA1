@@ -43,11 +43,11 @@ jobs:
     - name: Push frontApp to DockerHUB
       run: docker push arkadiyagapov/frontapp:latest
 
-    - name: Build loggerApp application
-      run: cd logger-service && env GOOS=linux CGO_ENABLED=0 go build -o loggerServiceApp ./cmd/web
-    - name: Build frontApp Docker image
+    - name: Build loggerServiceApp application
+      run: cd logger-service && env GOOS=linux CGO_ENABLED=0 go build -o loggerServiceApp ./cmd/api
+    - name: Build loggerServiceApp Docker image
       run: cd logger-service && docker build -t arkadiyagapov/loggerserviceapp:latest . -f logger-service.dockerfile
-    - name: Push frontApp to DockerHUB
+    - name: Push loggerServiceApp to DockerHUB
       run: docker push arkadiyagapov/loggerserviceapp:latest
 
   deploy:
