@@ -12,12 +12,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
       with:
-        # Full git history is needed to get a proper list of changed files within `super-linter`
         fetch-depth: 0
-    - name: Get dep
-      run: go mod download
     - name: Build Go application
-      run: cd broker-service && go build -o authApp ./cmd/api
+      run: cd broker-service && env GOOS=linux CGO_ENABLED=0 go build -o authApp ./cmd/api
     - name: Build Docker image
       run: docker build -t registry.digitalocean.com/lingvini/authApp:latest .
     - name: Login to DigitalOcean Registry
