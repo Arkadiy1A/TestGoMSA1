@@ -16,7 +16,7 @@ jobs:
     - name: Build Go application
       run: cd broker-service && env GOOS=linux CGO_ENABLED=0 go build -o authApp ./cmd/api
     - name: Build Docker image
-      run: cd broker-service && docker build -t registry.digitalocean.com/lingvini/authapp:latest .
+      run: cd broker-service && docker build -t registry.digitalocean.com/lingvini/authapp:latest -f broker-service.dockerfile
     - name: Login to DigitalOcean Registry
       run: echo ${{ secrets.DO_API_TOKEN }} | docker login -u ${{ secrets.DO_API_TOKEN }} --password-stdin registry.digitalocean.com
     - name: Push to DigitalOcean Registry
