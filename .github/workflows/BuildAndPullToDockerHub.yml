@@ -39,9 +39,9 @@ jobs:
     - name: Build frontApp application
       run: cd front-end && env GOOS=linux CGO_ENABLED=0 go build -o frontApp ./cmd/web
     - name: Build frontApp Docker image
-      run: cd front-end && docker build -t arkadiyagapov/frontapp:latest . -f front-end-service.dockerfile
+      run: cd front-end && docker build -t arkadiyagapov/frontserviceapp:latest . -f front-end-service.dockerfile
     - name: Push frontApp to DockerHUB
-      run: docker push arkadiyagapov/frontapp:latest
+      run: docker push arkadiyagapov/frontserviceapp:latest
 
     - name: Build loggerServiceApp application
       run: cd logger-service && env GOOS=linux CGO_ENABLED=0 go build -o loggerServiceApp ./cmd/api

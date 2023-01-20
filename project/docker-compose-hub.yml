@@ -2,10 +2,10 @@ version: '3'
 
 services:
   front-end-service:
-    image: 'arkadiyagapov/frontapp:latest'
+    image: 'arkadiyagapov/frontserviceapp:latest'
     restart: always
     ports:
-      - "9091:80"
+      - "9090:80"
     deploy:
       mode: replicated
       replicas: 1
@@ -14,7 +14,7 @@ services:
     image: 'arkadiyagapov/frontapp:latest'
     restart: always
     ports:
-      - "9090:80"
+      - "9091:80"
     deploy:
       mode: replicated
       replicas: 1
