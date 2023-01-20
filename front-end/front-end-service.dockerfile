@@ -8,6 +8,6 @@ RUN mkdir "/app/cmd/"
 
 COPY cmd/ /app/cmd/
 
-RUN ls -la /app
+#RUN ls -la /app
 
 CMD [ "/app/frontApp"]
