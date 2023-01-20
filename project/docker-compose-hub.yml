@@ -21,9 +21,7 @@ services:
       replicas: 1
 
   logger-service:
-    build:
-      context: ./../logger-service
-      dockerfile: ./../logger-service/logger-service.dockerfile
+    image: 'arkadiyagapov/loggerserviceapp:latest'
     restart: always
     deploy:
       mode: replicated
