@@ -12,6 +12,4 @@ COPY cmd/web/templates/header.partial.gohtml /app/cmd/web/templates/
 COPY cmd/web/templates/test.page.gohtml /app/cmd/web/templates/
 COPY cmd/web/templates/test.page2.gohtml /app/cmd/web/templates/
 
-#RUN ls -la /app
-
 CMD [ "/app/frontApp"]
