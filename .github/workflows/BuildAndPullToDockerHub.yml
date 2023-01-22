@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  buildBrokerApp:
     runs-on: ubuntu-latest
     steps:
     - name: Set up Go
@@ -15,50 +15,112 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-        
     - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
-        
     - name: Build brokerApp application
       run: cd broker-service && env GOOS=linux CGO_ENABLED=0 go build -o brokerApp ./cmd/api
     - name: Build brokerApp Docker image
       run: cd broker-service && docker build -t arkadiyagapov/brokerapp:latest . -f broker-service.dockerfile
     - name: Push brokerApp to DockerHUB
       run: docker push arkadiyagapov/brokerapp:latest
-    
-    - name: Build authApp application
-      run: cd authentication-service && env GOOS=linux CGO_ENABLED=0 go build -o authApp ./cmd/api
-    - name: Build authApp Docker image
-      run: cd authentication-service && docker build -t arkadiyagapov/authapp:latest . -f authentication-service.dockerfile
-    - name: Push authApp to DockerHUB
-      run: docker push arkadiyagapov/authapp:latest
 
-    - name: Build frontApp application
-      run: cd front-end && env GOOS=linux CGO_ENABLED=0 go build -o frontApp ./cmd/web
-    - name: Build frontApp Docker image
-      run: cd front-end && docker build -t arkadiyagapov/frontserviceapp:latest . -f front-end-service.dockerfile
-    - name: Push frontApp to DockerHUB
-      run: docker push arkadiyagapov/frontserviceapp:latest
+  buildAuthApp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.x'
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Build authApp application
+        run: cd authentication-service && env GOOS=linux CGO_ENABLED=0 go build -o authApp ./cmd/api
+      - name: Build authApp Docker image
+        run: cd authentication-service && docker build -t arkadiyagapov/authapp:latest . -f authentication-service.dockerfile
+      - name: Push authApp to DockerHUB
+        run: docker push arkadiyagapov/authapp:latest
 
-    - name: Build loggerServiceApp application
-      run: cd logger-service && env GOOS=linux CGO_ENABLED=0 go build -o loggerServiceApp ./cmd/api
-    - name: Build loggerServiceApp Docker image
-      run: cd logger-service && docker build -t arkadiyagapov/loggerserviceapp:latest . -f logger-service.dockerfile
-    - name: Push loggerServiceApp to DockerHUB
-      run: docker push arkadiyagapov/loggerserviceapp:latest
+  buildFrontApp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.x'
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Build frontApp application
+        run: cd front-end && env GOOS=linux CGO_ENABLED=0 go build -o frontApp ./cmd/web
+      - name: Build frontApp Docker image
+        run: cd front-end && docker build -t arkadiyagapov/frontserviceapp:latest . -f front-end-service.dockerfile
+      - name: Push frontApp to DockerHUB
+        run: docker push arkadiyagapov/frontserviceapp:latest
 
-    - name: Build mailServiceApp application
-      run: cd mail-service && env GOOS=linux CGO_ENABLED=0 go build -o mailerApp ./cmd/api
-    - name: Build mailServiceApp Docker image
-      run: cd mail-service && docker build -t arkadiyagapov/mailerviceapp:latest . -f mail-service.dockerfile
-    - name: Push mailServiceApp to DockerHUB
-      run: docker push arkadiyagapov/mailerviceapp:latest
+  buildLoggerApp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.x'
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Build loggerServiceApp application
+        run: cd logger-service && env GOOS=linux CGO_ENABLED=0 go build -o loggerServiceApp ./cmd/api
+      - name: Build loggerServiceApp Docker image
+        run: cd logger-service && docker build -t arkadiyagapov/loggerserviceapp:latest . -f logger-service.dockerfile
+      - name: Push loggerServiceApp to DockerHUB
+        run: docker push arkadiyagapov/loggerserviceapp:latest
+
+  buildMailApp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.x'
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Build mailServiceApp application
+        run: cd mail-service && env GOOS=linux CGO_ENABLED=0 go build -o mailerApp ./cmd/api
+      - name: Build mailServiceApp Docker image
+        run: cd mail-service && docker build -t arkadiyagapov/mailserviceapp:latest . -f mail-service.dockerfile
+      - name: Push mailServiceApp to DockerHUB
+        run: docker push arkadiyagapov/mailserviceapp:latest
 
   deploy:
-    needs: build
+    needs: [buildBrokerApp, buildAuthApp, buildFrontApp, buildLoggerApp, buildMailApp]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
