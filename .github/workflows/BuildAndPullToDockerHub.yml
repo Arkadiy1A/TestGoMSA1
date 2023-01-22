@@ -50,6 +50,13 @@ jobs:
     - name: Push loggerServiceApp to DockerHUB
       run: docker push arkadiyagapov/loggerserviceapp:latest
 
+    - name: Build mailServiceApp application
+      run: cd mail-service && env GOOS=linux CGO_ENABLED=0 go build -o mailerApp ./cmd/api
+    - name: Build mailServiceApp Docker image
+      run: cd mail-service && docker build -t arkadiyagapov/mailerviceapp:latest . -f mail-service.dockerfile
+    - name: Push mailServiceApp to DockerHUB
+      run: docker push arkadiyagapov/mailerviceapp:latest
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
