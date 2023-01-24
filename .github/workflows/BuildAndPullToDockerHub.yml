@@ -144,3 +144,4 @@ jobs:
           script: |
             docker compose -f /home/deployer/project/docker-compose-hub.yml down
             docker compose -f /home/deployer/project/docker-compose-hub.yml up -d
+
