@@ -4,6 +4,18 @@ version: '3'
 # have to change the image: <name> part to whatever your image names are
 
 services:
+  caddy:
+    image: arkadiyagapov/micro-caddy:1.0.0
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
   broker-service:
     image: arkadiyagapov/brokerapp:1.0.1
     deploy:
@@ -46,10 +58,8 @@ services:
       FROM_ADDRESS: john.smith@example.com
 
   front-end-service-1:
-    image: arkadiyagapov/frontapp:1.0.0
+    image: arkadiyagapov/frontapp:1.0.1
     restart: always
-    ports:
-      - "80:80"
     deploy:
       mode: replicated
       replicas: 3
@@ -93,3 +103,8 @@ services:
       POSTGRES_DB: users
     volumes:
       - ./db-data/postgres/:/var/lib/postgresql/data/
+
+volumes:
+  caddy_data:
+    external: true
+  caddy_config:
