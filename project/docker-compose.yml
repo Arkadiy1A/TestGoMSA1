@@ -91,6 +91,7 @@ services:
     image: 'mongo:latest'
     ports:
       - "27017:27017"
+    restart: always
     environment:
       MONGO_INITDB_DATABASE: logs
       MONGO_INITDB_ROOT_USERNAME: admin
@@ -103,11 +104,13 @@ services:
     ports:
       - "1025:1025"
       - "8025:8025"
+    restart: always
 
   rabbitmq:
     image: 'rabbitmq:latest'
     ports:
       - "5672:5672"
+    restart: always
     deploy:
       mode: replicated
       replicas: 1
