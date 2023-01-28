@@ -6,6 +6,9 @@ LOGS_BINARY=loggerServiceApp
 MAIL_BINARY=mailerApp
 LISTENER_BINARY=listenerApp
 
+swarm_update:
+	docker stack deploy -c swarm.yml myapp
+
 dockers_build_deploy: docker_deploy_caddy docker_deploy_broker docker_deploy_listener docker_deploy_authentication docker_deploy_logger docker_deploy_mail docker_deploy_front
 
 docker_deploy_caddy:

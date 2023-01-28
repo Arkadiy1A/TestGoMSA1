@@ -138,7 +138,7 @@ jobs:
       - name: Build listenerApp application
         run: cd listener-service && env GOOS=linux CGO_ENABLED=0 go build -o listenerApp .
       - name: Build listenerServiceApp Docker image
-        run: cd mail-service && docker build -t arkadiyagapov/listenerapp:latest . -f listener-service.dockerfile
+        run: cd listener-service && docker build -t arkadiyagapov/listenerapp:latest . -f listener-service.dockerfile
       - name: Push listenerApp to DockerHUB
         run: docker push arkadiyagapov/listenerapp:latest
 
