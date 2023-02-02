@@ -12,12 +12,12 @@ swarm_update:
 dockers_build_deploy: docker_deploy_caddy docker_deploy_broker docker_deploy_listener docker_deploy_authentication docker_deploy_logger docker_deploy_mail docker_deploy_front
 
 docker_deploy_caddy:
-	docker build -f caddy.dockerfile -t arkadiyagapov/micro-caddy:1.0.0 .
-	docker push arkadiyagapov/micro-caddy:1.0.0
+	docker build -f caddy.dockerfile -t arkadiyagapov/micro-caddy:1.0.1 .
+	docker push arkadiyagapov/micro-caddy:1.0.1
 
 docker_deploy_broker: build_broker
-	cd ../broker-service && docker build -f broker-service.dockerfile -t arkadiyagapov/brokerapp:1.0.1 .
-	docker push arkadiyagapov/brokerapp:1.0.1
+	cd ../broker-service && docker build -f broker-service.dockerfile -t arkadiyagapov/brokerapp:1.0.2 .
+	docker push arkadiyagapov/brokerapp:1.0.2
 
 docker_deploy_listener: build_listener
 	cd ../listener-service && docker build -f listener-service.dockerfile -t arkadiyagapov/listenerapp:1.0.0 .
@@ -36,8 +36,10 @@ docker_deploy_mail: build_mail
 	docker push arkadiyagapov/mailserviceapp:1.0.0
 
 docker_deploy_front: build_front
-	cd ../front-end && docker build -f front-end-service.dockerfile -t arkadiyagapov/frontapp:1.0.1 .
-	docker push arkadiyagapov/frontapp:1.0.0
+	cd ../front-end && docker build -f front-end-service.dockerfile -t arkadiyagapov/frontapp:1.0.2 .
+	docker push arkadiyagapov/frontapp:1.0.2
+	cd ../front-end && docker build -f front-end-service.dockerfile -t arkadiyagapov/frontapp:latest .
+	docker push arkadiyagapov/frontapp:latest
 
 ## up: starts all containers in the background without forcing build
 up:

@@ -5,34 +5,35 @@ version: '3'
 
 services:
   caddy:
-    image: arkadiyagapov/micro-caddy:1.0.0
+    image: arkadiyagapov/micro-caddy:1.0.1
     deploy:
-      mode: replicated
-      replicas: 1
+      mode: global
     ports:
-      - "80:80"
-      - "443:443"
+      - "8090:80"
+      - "44390:443"
     volumes:
       - caddy_data:/data
       - caddy_config:/config
 
   broker-service:
-    image: arkadiyagapov/brokerapp:1.0.1
+    image: arkadiyagapov/brokerapp:1.0.2
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 1
+    ports:
+      - "8080:80"
 
   listener-service:
     image: arkadiyagapov/listenerapp:1.0.0
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 1
 
   authentication-service:
     image: arkadiyagapov/authapp:1.0.0
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 1
     environment:
       DSN: "host=postgres port=5432 user=postgres password=password dbname=users sslmode=disable timezone=UTC connect_timeout=5"
 
@@ -40,13 +41,13 @@ services:
     image: arkadiyagapov/loggerserviceapp:1.0.0
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 1
 
   mailer-service:
     image: arkadiyagapov/mailserviceapp:1.0.0
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 1
     environment:
       MAIL_DOMAIN: localhost
       MAIL_HOST: mailhog
@@ -57,12 +58,17 @@ services:
       FROM_NAME: "John Smith"
       FROM_ADDRESS: john.smith@example.com
 
-  front-end-service-1:
-    image: arkadiyagapov/frontapp:1.0.1
+  front-end:
+    image: arkadiyagapov/frontapp:1.0.2
     restart: always
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 1
+    ports:
+      - "80:8081"
+    environment:
+      ROOT_URL: 8081
+      BROKER_URL: http://localhost:8080
 
   rabbitmq:
     image: 'rabbitmq:3.9-alpine'
@@ -90,7 +96,7 @@ services:
     #  - ./db-data/mongo/:/data/db
 
   postgres:
-    image: 'postgres:14.0'
+    image: 'postgres:14.2'
     ports:
       - "5432:5432"
     restart: always

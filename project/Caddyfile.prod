@@ -1,6 +1,5 @@
 {
-    email   arkady.agapov@me.com
-    auto_https disable_redirects
+    email   you@gmail.com
 }
 
 (static) {
@@ -26,7 +25,7 @@ frontend.linguini {
 	encode zstd gzip
 	import static
 
-	reverse_proxy http://front-end:8081
+	reverse_proxy  http://front-end:8081
 }
 
 backend.linguini {

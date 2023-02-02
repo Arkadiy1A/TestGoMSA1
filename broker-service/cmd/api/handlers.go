@@ -7,6 +7,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 	"net/rpc"
 	"time"
@@ -183,6 +184,7 @@ func (app *Config) sendMail(w http.ResponseWriter, msg MailPayload) {
 	client := &http.Client{}
 	response, err := client.Do(request)
 	if err != nil {
+		log.Printf("Error:  %s\n", err)
 		app.errorJSON(w, err)
 		return
 	}
@@ -190,6 +192,7 @@ func (app *Config) sendMail(w http.ResponseWriter, msg MailPayload) {
 
 	// make sure we get back the right status code
 	if response.StatusCode != http.StatusAccepted {
+		log.Printf("Error:  %s\n", err)
 		app.errorJSON(w, errors.New("error calling mail service"))
 		return
 	}
@@ -207,6 +210,7 @@ func (app *Config) sendMail(w http.ResponseWriter, msg MailPayload) {
 func (app *Config) logEventViaRabbit(w http.ResponseWriter, l LogPayload) {
 	err := app.pushToQueue(l.Name, l.Data)
 	if err != nil {
+		log.Printf("Error:  %s\n", err)
 		app.errorJSON(w, err)
 		return
 	}
@@ -222,6 +226,7 @@ func (app *Config) logEventViaRabbit(w http.ResponseWriter, l LogPayload) {
 func (app *Config) pushToQueue(name, msg string) error {
 	emitter, err := event.NewEventEmitter(app.Rabbit)
 	if err != nil {
+		log.Printf("Error:  %s\n", err)
 		return err
 	}
 
@@ -251,6 +256,7 @@ type RPCPayload struct {
 func (app *Config) logItemViaRPC(w http.ResponseWriter, l LogPayload) {
 	client, err := rpc.Dial("tcp", "logger-service:5001")
 	if err != nil {
+		log.Printf("Error on dialing rpc: %s\n", err)
 		app.errorJSON(w, err)
 		return
 	}
@@ -263,6 +269,7 @@ func (app *Config) logItemViaRPC(w http.ResponseWriter, l LogPayload) {
 	var result string
 	err = client.Call("RPCServer.LogInfo", rpcPayload, &result)
 	if err != nil {
+		log.Printf("Error on calling RPCServer.LogInfo: %s\n", err)
 		app.errorJSON(w, err)
 		return
 	}
@@ -280,12 +287,14 @@ func (app *Config) LogViaGRPC(w http.ResponseWriter, r *http.Request) {
 
 	err := app.readJSON(w, r, &requestPayload)
 	if err != nil {
+		log.Printf("Error: %s\n", err)
 		app.errorJSON(w, err)
 		return
 	}
 
 	conn, err := grpc.Dial("logger-service:50001", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithBlock())
 	if err != nil {
+		log.Printf("Error: %s\n", err)
 		app.errorJSON(w, err)
 		return
 	}
@@ -302,6 +311,7 @@ func (app *Config) LogViaGRPC(w http.ResponseWriter, r *http.Request) {
 		},
 	})
 	if err != nil {
+		log.Printf("Error: %s\n", err)
 		app.errorJSON(w, err)
 		return
 	}

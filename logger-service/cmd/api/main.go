@@ -67,9 +67,13 @@ func main() {
 }
 
 func (app *Config) rpcListen() error {
+	pay := new(RPCServer)
+	rpc.Register(pay)
+
 	log.Println("Starting RPC server on port ", rpcPort)
 	listen, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%s", rpcPort))
 	if err != nil {
+		fmt.Printf("Error on listening tcp port %s\n", err)
 		return err
 	}
 	defer listen.Close()
@@ -77,8 +81,13 @@ func (app *Config) rpcListen() error {
 	for {
 		rpcConn, err := listen.Accept()
 		if err != nil {
+			fmt.Printf("Error on accepting connection: %s\n", err)
 			continue
 		}
+
+		//buf := make([]byte, 1024)
+		//len, _ := rpcConn.Read(buf)
+		//fmt.Printf("Serving rpc: %v\n", string(buf[:len]))
 		go rpc.ServeConn(rpcConn)
 	}
 
